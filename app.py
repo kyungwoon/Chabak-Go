@@ -1,3 +1,1 @@
-
-push test
-test
+2차 수정
