@@ -2,9 +2,223 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>회원가입 페이지</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cute+Font&family=Dongle:wght@300&family=Gowun+Batang&family=Jua&display=swap"
+          rel="stylesheet">
+
 </head>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script>
+    function createid() {
+        let id = document.querySelector('#id');
+        let pw = document.querySelector('#pw');
+        let rpw = document.querySelector('#rpw');
+        let name = document.querySelector('#name');
+
+        if (id.value == "") {
+            alert('아이디를 입력해주세요.')
+            return;
+        }
+        if (pw.value == "") {
+            alert('비밀번호를 입력해주세요.')
+            return;
+        }
+        if (name.value == "") {
+            alert('이름을 입력해주세요.')
+            return;
+        }
+        if (pw.value !== rpw.value) {
+            alert('비밀번호가 맞지 않습니다.')
+            return;
+        }
+
+        let id1 = $('#id').val();
+        let pw1 = $('#pw').val();
+        let name1 = $('#name').val();
+
+        $.ajax({
+                type: "POST",
+                url: "/signup",
+                data: {id_give: id1, pw_give: pw1, name_give: name1},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.href = "/login"
+                }
+            }
+        )
+    }
+
+    //     if (id.value == ""  pw.value == ""  rpw.value == "" || name.value == "") {
+    //         alert("회원가입을 할 수 없습니다.")
+    //     } else {
+    //         if (pw.value !== rpw.value) {
+    //             alert("비밀번호를 확인해주세요.")
+    //         }
+    //     }
+    // }
+
+
+    function idcheck() {
+        let username = $("#id").val()
+
+        if (username == "") {
+            alert('아이디를 입력해주세요.')
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/sign_up/check_dup",
+            data: {username_give: username},
+            success: function (response) {
+                if (response["exists"]) {
+                    alert('사용할 수 없는 아이디입니다.')
+                    return;
+                } else {
+                    alert('사용할 수 있는 아이디입니다.')
+                }
+            }
+        });
+    }
+
+</script>
+
+<style>
+    * {
+        font-family: 'Cute Font', cursive;
+        font-family: 'Dongle', sans-serif;
+        font-family: 'Gowun Batang', serif;
+        font-family: 'Jua', sans-serif;
+    }
+
+    .mytitle {
+        background-color: white;
+        text-align: center;
+        font-size: 85px;
+        color: coral;
+        font-family: 'East Sea Dokdo', cursive;;
+    }
+
+    .signwrap {
+        background-color: lightgreen;
+        height: 100vh;
+        position: relative;
+
+    }
+
+    .signupwrap {
+
+        background-color: white;
+        text-align: center;
+        width: 700px;
+        height: 770px;
+        position: absolute;
+        left: 32%;
+        top: 10%;
+
+        border-radius: 100px;
+    }
+
+    .signtitle {
+        padding-top: 30px;
+        text-align: center;
+        font-size: 40px;
+    }
+
+    .idbox {
+        border: none;
+        font-size: 25px;
+        width: 300px;
+        height: 40px;
+
+    }
+
+    .pwbox {
+        border: none;
+        font-size: 20px;
+        width: 300px;
+        height: 40px;
+    }
+
+    .rpwbox {
+        border: none;
+        font-size: 20px;
+        width: 300px;
+        height: 40px;
+    }
+
+    .namebox {
+        border: none;
+        font-size: 20px;
+        width: 300px;
+        height: 40px;
+    }
+
+    .btn {
+        border-color: lightblue;
+        background-color: lightblue;
+        font-size: 25px;
+        padding: 5px;
+        width: 300px;
+        margin-top: 25px;
+    }
+
+    .loginbtn {
+        border-color: lightblue;
+        background-color: lightblue;
+        font-size: 10px;
+        padding: 5px;
+        width: 100px;
+        margin-top: 20px;
+    }
+
+</style>
+
 <body>
+<h1 class="mytitle">차박Go</h1>
+
+<div class="signwrap">
+    <div class="signupwrap">
+        <h3 class="signtitle">회원가입</h3>
+        <h6 style="color: red">*은 필수입력 항목입니다.</h6>
+        <div>
+            <input class="idbox" placeholder="ID" id="id" type="text">
+            <p style="font-size: 15px"><span style="color: red">*</span> 아이디 입력해주세요.</p>
+        </div>
+
+        <button onclick="idcheck()">중복체크</button>
+
+        <div>
+            <input class="pwbox" placeholder="PW" id="pw" type="password">
+            <p style="font-size: 15px"><span style="color: red">*</span> 비밀번호 입력해주세요.</p>
+        </div>
+
+        <div>
+            <input class="rpwbox" placeholder="PW확인" id="rpw" type="password">
+            <p style="font-size: 15px">비밀번호 확인해주세요.</p>
+        </div>
+
+        <div>
+            <input class="namebox" placeholder="이름" id="name" type="text">
+            <p style="font-size: 15px"><span style="color: red">*</span> 이름을 입력해주세요.</p>
+        </div>
+
+        <div>
+            <input onclick="createid();" type="button" class="btn" value="계정생성">
+        </div>
+
+        <div>
+            <button type="button" onclick="location.href='/login'" class="loginbtn">로그인창</button>
+        </div>
+    </div>
+</div>
+
 
 </body>
+
 </html>
