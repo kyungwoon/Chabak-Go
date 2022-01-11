@@ -1,8 +1,10 @@
 from flask import render_template, request, Blueprint, jsonify
 
-from app import db
+from pymongo import MongoClient
 
-login_api = Blueprint("login", __name__)
+client = MongoClient('localhost', 27017)
+db = client.dbsparta
+login_api = Blueprint("login_api", __name__)
 
 @login_api.route("/login")
 def login_page():

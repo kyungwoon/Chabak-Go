@@ -1,9 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 
-import LoginApi
+import login_api
 
 app = Flask(__name__)
-app.register_blueprint(LoginApi.login_api)
+app.register_blueprint(login_api.login_api)
 
 from pymongo import MongoClient
 
