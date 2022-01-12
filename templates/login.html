@@ -46,7 +46,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/login",
+                url: "/api/login",
                 data: {
                     id_give: id,
                     pw_give: pw,
@@ -74,7 +74,7 @@
             <button class="btn btn-success mb-6" style="width:100%" onclick="log_in()">로그인</button>
             <hr>
             <p class="notmem">아직 회원이 아니세요?</p>
-            <button type="button" class="btn btn-outline-success" style="width:100%" onclick="location.href='/'">회원가입</button>
+            <button type="button" class="btn btn-outline-success" style="width:100%" onclick="location.href='/signup'">회원가입</button>
         </article>
     </section>
 
