@@ -1,3 +1,5 @@
+import hashlib
+
 from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
@@ -7,15 +9,18 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
+#JWT 패키지를 사용합니다.(설치해야할 패키지 이름 : pyJWT)
+import jwt
+
+@app.route("/")
+def login_page():
+    return render_template('login.html')
 
 ## HTML을 주는 부분
-@app.route('/')
+@app.route('/signup')
 def home():
     return render_template('index.html')
 
-@app.route("/login")
-def login_page():
-    return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -34,9 +39,11 @@ def sign_up():
     pw_receive = request.form['pw_give']
     name_receive = request.form['name_give']
 
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+
     doc = {
         'id': id_receive,
-        'pw': pw_receive,
+        'pw': pw_hash,
         'name': name_receive
     }
     db.signup.insert_one(doc)
