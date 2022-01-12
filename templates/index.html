@@ -49,6 +49,29 @@
         font-family: 'Nanum Pen Script', cursive;
     }
 
+    .banner {
+        width: 100%;
+        display: block;
+        position: relative;
+    }
+
+    .banner-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .banner-text {
+        padding: 5px 10px;
+        text-align: center;
+        position: absolute;
+        top: 30%;
+        left: 36%;
+        font-size: 90px;
+        color: white;
+    }
+
     .wrap {
         width: 1500px;
         margin: 0 auto;
@@ -190,7 +213,7 @@
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">차박지: ${title}</li>
                                                     <li class="list-group-item">코멘트: ${description}</li>
-                                                    <li class="list-group-item">주소: ${address}</li>
+                                                    <li class="list-group-item">${address}</li>
                                                 </ul>
                                         </div>`
                     $('#cards').append(temp_html)
@@ -223,10 +246,10 @@
     });
 
     function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
+        $.removeCookie('mytoken');
+        alert('로그아웃!')
+        window.location.href = '/login'
+    }
 
 </script>
 <body>
@@ -239,32 +262,24 @@
             </p>
         </div>
     </header>
-
+    <div class="banner">
+        <img class="banner-image" src="/static/banner.png">
+        <p class="banner-text">차만 있으면 어디든!🎇</p>
+    </div>
     <section class="main">
-        <nav class="tag">
-            <div class="detail_tag">
-                <button onclick="keyword('전체')" type="button" class="btn btn-primary">전체</button>
-                <button onclick="keyword('서울')" type="button" class="btn btn-primary">서울</button>
-                <button onclick="keyword('경기')" type="button" class="btn btn-primary">경기</button>
-                <button onclick="keyword('강원')" type="button" class="btn btn-primary">강원</button>
-                <button onclick="keyword('경상')" type="button" class="btn btn-primary">경상</button>
-
-            </div>
-
-        </nav>
+        <div>
+            <img scr="https://images.unsplash.com/photo-1432847712612-926caafaa802?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80">
+        </div>
 
         <div id="cards">
 
 
         </div>
 
-
     </section>
     <div id="to-top">
         <div class="material-icons">arrow_upward</div>
     </div>
 </div>
-
-
 </body>
 </html>

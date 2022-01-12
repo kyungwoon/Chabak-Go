@@ -47,7 +47,7 @@ def login():
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = list(jwt.encode(payload, SECRET_KEY, algorithm='HS256', ))
 
         return jsonify({'result': 'success', 'token': token, 'msg': '로그인되었습니다.'})
 
