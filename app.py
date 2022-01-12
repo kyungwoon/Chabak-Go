@@ -39,6 +39,7 @@ def login():
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
     user = db.signup.find_one({'id': id_receive, 'pw': pw_hash})
+
     if user is None:
         return jsonify({'msg': '아이디나 비밀번호를 확인해주세요.'})
     else:
@@ -46,9 +47,32 @@ def login():
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token, 'msg': '로그인되었습니다.'})
+
+@app.route('/name', methods=['GET'])
+def api_valid():
+    token_receive = request.cookies.get('mytoken')
+
+    # try / catch 문?
+    # try 아래를 실행했다가, 에러가 있으면 except 구분으로 가란 얘기입니다.
+
+    try:
+        # token을 시크릿키로 디코딩합니다.
+        # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # print(payload)
+
+        # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
+        # 여기에선 그 예로 닉네임을 보내주겠습니다.
+        userinfo = db.signup.find_one({'id': payload['id']}, {'_id': 0})
+        return jsonify({'result': 'success', 'name': userinfo['name']})
+    except jwt.ExpiredSignatureError:
+        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 
 # 회원가입
@@ -67,7 +91,6 @@ def sign_up():
 
     doc = {
         'id': id_receive,
-        'pw': pw_receive,
         'pw': pw_hash,
         'name': name_receive
     }

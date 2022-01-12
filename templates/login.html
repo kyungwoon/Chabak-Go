@@ -8,8 +8,10 @@
 
 
     <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <style>
 
@@ -17,14 +19,17 @@
             display: flex;
             justify-content: center;
         }
+
         .id_pw {
             background-color: RGBA(204, 255, 153, 0.7);
         }
+
         .minibox {
             margin: auto;
             max-width: 480px;
         }
-        .notmem{
+
+        .notmem {
             text-align: center;
         }
 
@@ -43,31 +48,50 @@
                     pw_give: pw,
                 },
                 success: function (response) {
-                    alert(response["msg"]);
-                    location.href='/main'
+
+                    if (response['result'] == 'success') {
+                            // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                            // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                            $.cookie('mytoken', response['token']);
+
+                            alert(response["msg"]);
+                            location.href = '/main'
+                        } else {
+                            // 로그인이 안되면 에러메시지를 띄웁니다.
+                            alert(response['msg'])
+                        }
+
+
                 },
             });
         }
 
+        {#function logout() {#}
+        {#    $.removeCookie('mytoken');#}
+        {#    alert('로그아웃!')#}
+        {#    window.location.href = '/login'#}
+        {#}#}
 
     </script>
 </head>
 <body>
-    <div class = "top">
-        <img src="/static/logo.png" alt="logo">
+<div class="top">
+    <img src="/static/logo.png" alt="logo">
 
-    </div>
+</div>
 
-    <section class="id_pw">
-        <article class="p-3 mb-2 bg-white minibox">
-            <p> <input type="text" id="id" placeholder="아이디" style="width:100%"></p>
-            <p> <input type="password" id="pw" name="password" placeholder="비밀번호" style="width:100%"></p>
-            <button class="btn btn-success mb-6" style="width:100%" onclick="log_in()">로그인</button>
-            <hr>
-            <p class="notmem">아직 회원이 아니세요?</p>
-            <button type="button" class="btn btn-outline-success" style="width:100%" onclick="location.href='/signup'">회원가입</button>
-        </article>
-    </section>
+<section class="id_pw">
+    <article class="p-3 mb-2 bg-white minibox">
+        <p><input type="text" id="id" placeholder="아이디" style="width:100%"></p>
+        <p><input type="password" id="pw" name="password" placeholder="비밀번호" style="width:100%"></p>
+        <button class="btn btn-success mb-6" style="width:100%" onclick="log_in()">로그인</button>
+        <hr>
+        <p class="notmem">아직 회원이 아니세요?</p>
+        <button type="button" class="btn btn-outline-success" style="width:100%" onclick="location.href='/signup'">
+            회원가입
+        </button>
+    </article>
+</section>
 
 
 </body>
