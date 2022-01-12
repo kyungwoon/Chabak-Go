@@ -41,7 +41,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
             integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 </head>
 <style>
@@ -215,18 +216,22 @@
         }
     }, 300));
 
-    {#const toTopEl = document.querySelector('#to-top');#}
-    {#toTopEl.addEventListener('click', function () {#}
-    {#    gsap.to(window, .7, {#}
-    {#        scrollTo: 0#}
-    {#    });#}
-    {#});#}
-
     function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
+        $.removeCookie('mytoken');
+        alert('로그아웃!')
+        window.location.href = '/login'
+    }
+
+
+    window.onload = function () {
+        const toTopEl = document.querySelector('#to-top');
+        toTopEl.addEventListener('click', function () {
+            gsap.to(window, .7, {
+                scrollTo: 0
+            });
+        });
+    }
+
 
 </script>
 <body>
@@ -235,7 +240,7 @@
         <div class="top">
             <img src="/static/logo.png" alt="logo">
             <p>안녕하세요. (이름) 님!
-                <button onclick="logout()" type="button" class="btn btn-primary">로그아웃</button>
+                <button onclick="logout()" type="button" class="btn btn-primary" style='cursor:pointer;'>로그아웃</button>
             </p>
         </div>
     </header>
