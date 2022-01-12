@@ -43,7 +43,7 @@
 
         $.ajax({
                 type: "POST",
-                url: "/signup",
+                url: "/api/signup",
                 data: {id_give: id1, pw_give: pw1, name_give: name1},
                 success: function (response) {
                     alert(response["msg"]);
