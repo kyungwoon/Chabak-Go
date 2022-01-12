@@ -39,6 +39,7 @@ def login():
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
     user = db.signup.find_one({'id': id_receive, 'pw': pw_hash})
+
     if user is None:
         return jsonify({'msg': '아이디나 비밀번호를 확인해주세요.'})
     else:

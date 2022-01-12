@@ -222,6 +222,11 @@
         });
     });
 
+    function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
 
 </script>
 <body>
@@ -230,7 +235,7 @@
         <div class="top">
             <img src="/static/logo.png" alt="logo">
             <p>안녕하세요. (이름) 님!
-                <button onclick="logout_out()" type="button" class="btn btn-primary">로그아웃</button>
+                <button onclick="logout()" type="button" class="btn btn-primary">로그아웃</button>
             </p>
         </div>
     </header>
