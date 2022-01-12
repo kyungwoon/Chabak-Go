@@ -87,7 +87,7 @@
       <workItem from="1641949122662" duration="153000" />
       <workItem from="1641955040319" duration="18000" />
       <workItem from="1641955076079" duration="6000" />
-      <workItem from="1641955094768" duration="3611000" />
+      <workItem from="1641955094768" duration="6908000" />
     </task>
     <servers />
   </component>
@@ -96,6 +96,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/chabak$app.coverage" NAME="app Coverage Results" MODIFIED="1641926156758" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Chabakgo$app.coverage" NAME="app Coverage Results" MODIFIED="1641964375629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Chabakgo$app.coverage" NAME="app Coverage Results" MODIFIED="1641968035226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
