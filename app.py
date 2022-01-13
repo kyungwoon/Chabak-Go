@@ -27,7 +27,17 @@ def home():
 # 로그인
 @app.route("/login")
 def login_page():
-    return render_template('login.html')
+
+    token_receive = request.cookies.get('mytoken')
+    # try 아래를 실행해서 에러가 생기면 except 구문으로 가라는 거
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        users = db.signup.find_one({"id": payload["id"]})
+        return render_template('index.html', users=users)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 ###API###
 
@@ -47,6 +57,7 @@ def login():
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
         }
+
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token, 'msg': '로그인되었습니다.'})
@@ -104,11 +115,19 @@ def check_dup():
     exists = bool(db.signup.find_one({"id": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-
 # 메인페이지
 @app.route('/main')
 def main_page():
-    return render_template('index.html')
+    token_receive = request.cookies.get('mytoken')
+    # try 아래를 실행해서 에러가 생기면 except 구문으로 가라는 거
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        users = db.signup.find_one({"id": payload["id"]})
+        return render_template('index.html', users=users)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
 @app.route('/main_page', methods=['GET'])
