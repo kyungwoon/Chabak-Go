@@ -54,8 +54,6 @@
     }
 
 
-    }
-
     .banner {
         width: 100%;
         display: block;
@@ -191,6 +189,42 @@
         keyword();
     });
 
+    function keyword() {
+        $.ajax({
+            type: "GET",
+            url: "/main_page",
+            data: {},
+            success: function (response) {
+                let cards = response['all_card']
+
+                for (let i = 0; i < cards.length; i++) {
+                    let title = cards[i]['title']
+                    let address = cards[i]['address']
+                    let description = cards[i]['description']
+                    let image = cards[i]['image']
+
+                    let temp_html = `<div class="card-box">
+                                        <div class="card-image">
+                                            <a href="/detail">
+                                                <img src="${image}" alt="card-image"> </a>
+                                            <div class="container">
+                                            </div>
+                                        </div>
+
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item">차박지: ${title}</li>
+                                                <li class="list-group-item">코멘트: ${description}</li>
+                                                <li class="list-group-item">${address}</li>
+                                            </ul>
+                                    </div>`
+                    $('#cards').append(temp_html)
+
+
+                }
+            }
+        });
+    }
+
     function createid() {
         let id = document.querySelector('#id');
         let pw = document.querySelector('#pw');
@@ -228,44 +262,6 @@
                 }
             }
         )
-        //
-        //키워드 클릭 시 카드 띄우기
-        function keyword() {
-            $.ajax({
-                type: "GET",
-                url: "/main_page",
-                data: {},
-                success: function (response) {
-                    let cards = response['all_card']
-
-                    for (let i = 0; i < cards.length; i++) {
-                        let title = cards[i]['title']
-                        let address = cards[i]['address']
-                        let description = cards[i]['description']
-                        let image = cards[i]['image']
-
-                        let temp_html = `<div class="card-box">
-                                            <div class="card-image">
-                                                <a href="/detail">
-                                                    <img src="${image}" alt="card-image"> </a>
-                                                <div class="container">
-                                                </div>
-                                            </div>
-
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item">차박지: ${title}</li>
-                                                    <li class="list-group-item">코멘트: ${description}</li>
-                                                    <li class="list-group-item">${address}</li>
-                                                </ul>
-                                        </div>`
-                        $('#cards').append(temp_html)
-
-
-                    }
-                }
-            });
-        }
-
 
         window.addEventListener('scroll', _.throttle(function () { //스크롤 이벤트 rodash이용
             if (window.scrollY > 500) {
@@ -299,6 +295,7 @@
     }
 </script>
 <body>
+
 <div class="wrap">
     <header class="header">
         <div class="top">
@@ -321,6 +318,6 @@
         </div>
 
     </section>
-    
+</div>
 </body>
 </html>
