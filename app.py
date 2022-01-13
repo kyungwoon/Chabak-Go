@@ -18,20 +18,13 @@ import datetime
 # 비밀번호 암호화
 import hashlib
 
-
-## HTML을 주는 부분
-@app.route('/')
-def home():
-    return render_template('login.html')
-
-# 로그인
-@app.route("/login")
+@app.route("/")
 def login_page():
     return render_template('login.html')
 
 ###API###
 
-@app.route('/login', methods=['POST'])
+@app.route('/', methods=['POST'])
 def login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
@@ -41,7 +34,13 @@ def login():
     user = db.signup.find_one({'id': id_receive, 'pw': pw_hash})
 
     if user is None:
-        return jsonify({'msg': '아이디나 비밀번호를 확인해주세요.'})
+        payload ={
+            'id':id_receive,
+            'exp':datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+
+        return jsonify({'msg': '아이디나 비밀번호를 확인해주세요.', 'token':token})
     else:
         payload = {
             'id': id_receive,

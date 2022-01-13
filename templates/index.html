@@ -44,10 +44,16 @@
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
 </head>
+
 <style>
     * {
         font-family: 'Nanum Pen Script', cursive;
+    }
+
+
     }
 
     .banner {
@@ -180,30 +186,65 @@
 
 
 </style>
-
-
 <script>
-
     $(document).ready(function () {
         keyword();
     });
-    //
-    //키워드 클릭 시 카드 띄우기
-    function keyword() {
+
+    function createid() {
+        let id = document.querySelector('#id');
+        let pw = document.querySelector('#pw');
+        let rpw = document.querySelector('#rpw');
+        let name = document.querySelector('#name');
+
+        if (id.value == "") {
+            alert('아이디를 입력해주세요.')
+            return;
+        }
+        if (pw.value == "") {
+            alert('비밀번호를 입력해주세요.')
+            return;
+        }
+        if (name.value == "") {
+            alert('이름을 입력해주세요.')
+            return;
+        }
+        if (pw.value !== rpw.value) {
+            alert('비밀번호가 맞지 않습니다.')
+            return;
+        }
+
+        let id1 = $('#id').val();
+        let pw1 = $('#pw').val();
+        let name1 = $('#name').val();
+
         $.ajax({
-            type: "GET",
-            url: "/main_page",
-            data: {},
-            success: function (response) {
-                let cards = response['all_card']
+                type: "POST",
+                url: "/api/signup",
+                data: {id_give: id1, pw_give: pw1, name_give: name1},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.href = "/"
+                }
+            }
+        )
+        //
+        //키워드 클릭 시 카드 띄우기
+        function keyword() {
+            $.ajax({
+                type: "GET",
+                url: "/main_page",
+                data: {},
+                success: function (response) {
+                    let cards = response['all_card']
 
-                for (let i = 0; i < cards.length; i++) {
-                    let title = cards[i]['title']
-                    let address = cards[i]['address']
-                    let description = cards[i]['description']
-                    let image = cards[i]['image']
+                    for (let i = 0; i < cards.length; i++) {
+                        let title = cards[i]['title']
+                        let address = cards[i]['address']
+                        let description = cards[i]['description']
+                        let image = cards[i]['image']
 
-                    let temp_html = `<div class="card-box">
+                        let temp_html = `<div class="card-box">
                                             <div class="card-image">
                                                 <a href="/detail">
                                                     <img src="${image}" alt="card-image"> </a>
@@ -217,45 +258,45 @@
                                                     <li class="list-group-item">${address}</li>
                                                 </ul>
                                         </div>`
-                    $('#cards').append(temp_html)
+                        $('#cards').append(temp_html)
 
 
+                    }
                 }
-            }
-        });
-    }
-
-
-    window.addEventListener('scroll', _.throttle(function () { //스크롤 이벤트 rodash이용
-        if (window.scrollY > 500) {
-            //버튼 보이기
-            gsap.to('#to-top', .2, { //애니메이션 라이브러리 gsap
-                x: 0
-            });
-        } else {
-            //버튼 숨기기
-            gsap.to('#to-top', .2, {
-                x: 100
             });
         }
-    }, 300));
-
-    function logout() {
-        $.removeCookie('mytoken');
-        alert('로그아웃!')
-        window.location.href = '/login'
-    }
 
 
-    window.onload = function () {
-        const toTopEl = document.querySelector('#to-top');
-        toTopEl.addEventListener('click', function () {
-            gsap.to(window, .7, {
-                scrollTo: 0
+        window.addEventListener('scroll', _.throttle(function () { //스크롤 이벤트 rodash이용
+            if (window.scrollY > 500) {
+                //버튼 보이기
+                gsap.to('#to-top', .2, { //애니메이션 라이브러리 gsap
+                    x: 0
+                });
+            } else {
+                //버튼 숨기기
+                gsap.to('#to-top', .2, {
+                    x: 100
+                });
+            }
+        }, 300));
+
+        function logout() {
+            $.removeCookie('mytoken');
+            alert('로그아웃!')
+            window.location.href = '/login'
+        }
+
+
+        window.onload = function () {
+            const toTopEl = document.querySelector('#to-top');
+            toTopEl.addEventListener('click', function () {
+                gsap.to(window, .7, {
+                    scrollTo: 0
+                });
             });
-        });
+        }
     }
-
 </script>
 <body>
 <div class="wrap">
@@ -277,14 +318,29 @@
         </div>
 
         <div id="cards">
-
-
         </div>
 
     </section>
     <div id="to-top">
         <div class="material-icons">arrow_upward</div>
+        <div>
+            <input class="rpwbox" placeholder="PW확인" id="rpw" type="password">
+            <p style="font-size: 15px">비밀번호 확인해주세요.</p>
+        </div>
+
+        <div>
+            <input class="namebox" placeholder="이름" id="name" type="text">
+            <p style="font-size: 15px"><span style="color: red">*</span> 이름을 입력해주세요.</p>
+        </div>
+
+        <div>
+            <input onclick="createid();" type="button" class="btn" value="계정생성">
+        </div>
+
+        <div>
+            <button type="button" onclick="location.href='/'" class="loginbtn">로그인창</button>
+        </div>
     </div>
-</div>
+
 </body>
 </html>
